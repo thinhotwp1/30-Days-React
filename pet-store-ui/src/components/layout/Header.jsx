@@ -1,4 +1,4 @@
-export default function Header() {
+export default function Header({cartCount}) {
     // Logic JS có thể viết ở đây (trước câu lệnh return)
     const storeName = "Paw & Purr E-commerce";
 
@@ -10,9 +10,8 @@ export default function Header() {
             </div>
             <nav>
                 <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/products">Products</a></li>
-                    <li><a href="/cart">Cart (0)</a></li>
+                    <li>Home</li>
+                    <li>Cart ({cartCount})</li> {/* Hiển thị số lượng từ App truyền xuống */}
                 </ul>
             </nav>
         </header>
