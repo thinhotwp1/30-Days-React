@@ -10,8 +10,8 @@ export default function Header({cartCount}) {
             </div>
             <nav>
                 <ul>
-                    <li>Home</li>
-                    <li>Cart ({cartCount})</li> {/* Hiển thị số lượng từ App truyền xuống */}
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/cart">Cart ({cartCount})</a></li> {/* Hiển thị số lượng từ App truyền xuống */}
                 </ul>
             </nav>
         </header>

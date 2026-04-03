@@ -32,10 +32,11 @@ export default function AddProductForm({onAddProduct}) {
         setFormData({name: '', category: 'Dog', price: ''})
     }
     return (
-        <form onSubmit={handleSubmit} style={{ border: '2px dashed #007bff', padding: '20px', marginBottom: '30px', borderRadius: '8px' }}>
+        <form onSubmit={handleSubmit}
+              style={{border: '2px dashed #007bff', padding: '20px', marginBottom: '30px', borderRadius: '8px'}}>
             <h2>Thêm Thú Cưng Mới</h2>
 
-            <div style={{ marginBottom: '10px' }}>
+            <div style={{marginBottom: '10px'}}>
                 <label>Tên thú cưng: </label>
                 {/* value gắn với state, onChange gọi hàm cập nhật */}
                 <input
@@ -46,7 +47,7 @@ export default function AddProductForm({onAddProduct}) {
                 />
             </div>
 
-            <div style={{ marginBottom: '10px' }}>
+            <div style={{marginBottom: '10px'}}>
                 <label>Loài: </label>
                 <select name="category" value={formData.category} onChange={handleChange}>
                     <option value="Dog">Chó</option>
@@ -55,7 +56,7 @@ export default function AddProductForm({onAddProduct}) {
                 </select>
             </div>
 
-            <div style={{ marginBottom: '10px' }}>
+            <div style={{marginBottom: '10px'}}>
                 <label>Giá (VNĐ): </label>
                 <input
                     type="number"
@@ -65,7 +66,13 @@ export default function AddProductForm({onAddProduct}) {
                 />
             </div>
 
-            <button type="submit" style={{ background: '#28a745', color: 'white', padding: '10px 20px', border: 'none', cursor: 'pointer' }}>
+            <button type="submit" style={{
+                background: '#28a745',
+                color: 'white',
+                padding: '10px 20px',
+                border: 'none',
+                cursor: 'pointer'
+            }}>
                 + Thêm vào cửa hàng
             </button>
         </form>
