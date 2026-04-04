@@ -52,7 +52,6 @@ export default function AddProductForm({onAddProduct}) {
                 <select name="category" value={formData.category} onChange={handleChange}>
                     <option value="Dog">Chó</option>
                     <option value="Cat">Mèo</option>
-                    <option value="Bird">Chim</option>
                 </select>
             </div>
 
