@@ -1,37 +1,43 @@
 // src/App.jsx
-import {useState, useEffect} from 'react';
+import { useState } from 'react';
 import Header from './components/layout/Header';
-import Footer from './components/layout/Footer';
 import ProductCard from './components/ProductCard';
-import './App.css';
-import useFetch from './hooks/useFetch'; // Import Custom Hook
+import useFetchProducts from './hooks/useFetchProducts'; // Import Service
 
 function App() {
-    // Giao diện chỉ cần ĐẶT HÀNG dữ liệu, không cần quan tâm API gọi như thế nào!
-    const {
-        data: users, // Đổi tên biến data thành users cho dễ hiểu
-        isLoading,
-        error
-    } = useFetch('https://jsonplaceholder.typicode.com/users');
+    // Quản lý state danh mục người dùng muốn xem
+    const [selectedCategory, setSelectedCategory] = useState('All');
+
+    // Gọi Custom Hook và truyền State vào
+    // Bất cứ khi nào selectedCategory thay đổi, Hook sẽ tự chạy lại!
+    const { products, isLoading, error } = useFetchProducts(selectedCategory);
 
     return (
         <>
             <Header />
-            <main>
-                {isLoading && <h2>Đang tải danh sách thú cưng... 🐶</h2>}
-                {error && <h2 style={{color: 'red'}}>Lỗi: {error}</h2>}
+            <main className="main-content">
 
-                {/* Render dữ liệu khi đã fetch xong */}
-                {!isLoading && !error && users && (
+                {/* Bộ lọc UI */}
+                <div style={{ marginBottom: '20px' }}>
+                    <label>Lọc thú cưng: </label>
+                    <select
+                        value={selectedCategory}
+                        onChange={(e) => setSelectedCategory(e.target.value)}
+                    >
+                        <option value="All">Tất cả</option>
+                        <option value="Dog">Chỉ hiện Chó</option>
+                        <option value="Cat">Chỉ hiện Mèo</option>
+                    </select>
+                </div>
+
+                {/* Xử lý UI */}
+                {isLoading && <h2>Đang tìm kiếm thú cưng...</h2>}
+                {error && <h2 style={{ color: 'red' }}>Lỗi: {error}</h2>}
+
+                {!isLoading && !error && (
                     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                        {users.map(user => (
-                            <ProductCard
-                                key={user.id}
-                                name={"Pet của " + user.name}
-                                price={user.id * 1000000}
-                                imageUrl={`https://images.unsplash.com/photo-1543466835-00a7907e9de1?sig=${user.id}`}
-                                inStock={true}
-                            />
+                        {products.map(pet => (
+                            <ProductCard key={pet.id} {...pet} />
                         ))}
                     </div>
                 )}
@@ -39,4 +45,5 @@ function App() {
         </>
     );
 }
+
 export default App;
