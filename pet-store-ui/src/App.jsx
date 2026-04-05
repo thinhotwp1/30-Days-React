@@ -9,18 +9,21 @@ function App() {
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true); // State quản lý trạng thái chờ
     const [error, setError] = useState(null);
+    const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     useEffect(() => {
-        // Giả lập gọi API
+        // 1. Khởi tạo một "Công tắc" để có thể hủy request API
+        const controller = new AbortController();
+        const signal = controller.signal;
+
         const fetchPets = async () => {
             try {
                 setIsLoading(true);
-                // Trong thực tế sẽ là: fetch('http://localhost:8080/api/pets')
-                const response = await fetch('https://jsonplaceholder.typicode.com/users');
+                // 2. Gắn "Công tắc" vào request
+                await delay(2000);
+                const response = await fetch('https://jsonplaceholder.typicode.com/users', { signal });
                 const data = await response.json();
-                console.log(data);
 
-                // Map lại dữ liệu API sang format của Pet Store
                 const formattedData = data.map(user => ({
                     id: user.id,
                     name: "Pet của " + user.name,
@@ -31,13 +34,25 @@ function App() {
 
                 setProducts(formattedData);
             } catch (err) {
-                setError("Không thể tải danh sách thú cưng.");
+                // 3. Xử lý trường hợp bị ép hủy (Không phải lỗi server)
+                if (err.name === 'AbortError') {
+                    console.log('Request API đã bị hủy do Component bị Unmount!');
+                } else {
+                    setError("Không thể tải danh sách thú cưng.");
+                }
             } finally {
                 setIsLoading(false);
             }
         };
 
         fetchPets();
+
+        // 4. CLEANUP FUNCTION (Hàm Destroy)
+        // React sẽ TỰ ĐỘNG gọi hàm này khi người dùng rời khỏi trang
+        return () => {
+            console.log('Tiến hành dọn dẹp: Hủy request API đang chạy dở...');
+            controller.abort(); // Bấm công tắc hủy request ngay lập tức
+        };
     }, []); // Chạy 1 lần duy nhất khi load trang
 
     return (
