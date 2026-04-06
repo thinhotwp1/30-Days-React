@@ -1,12 +1,21 @@
 // src/components/ProductCard.jsx
 import { useCart } from '../context/CartContext';
 
-// Chú ý: Ở Bước 1 mình đã truyền nguyên object `product` xuống, nên ở đây ta hứng `product`
 export default function ProductCard({ product }) {
-    const { addToCart } = useCart(); // Lấy hàm addToCart từ Context
+    // Lấy hàm dispatch và danh sách ACTIONS từ kho
+    const { dispatch, ACTIONS } = useCart();
+
+    const handleAdd = () => {
+        // Gửi một "Chỉ thị" vào hệ thống
+        dispatch({
+            type: ACTIONS.ADD_ITEM,
+            payload: product
+        });
+    };
 
     return (
         <div className="product-card" style={{ border: '1px solid #ccc', padding: '16px', borderRadius: '8px', margin: '10px', width: '250px' }}>
+            {/* Đã khôi phục lại các thẻ hiển thị thông tin */}
             <img
                 src={product.imageUrl}
                 alt={product.name}
@@ -17,10 +26,9 @@ export default function ProductCard({ product }) {
                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}
             </p>
 
-            {/* Gọi hàm từ Context, không cần quan tâm component cha nữa */}
             <button
-                onClick={() => addToCart(product)}
-                style={{ padding: '8px 16px', cursor: 'pointer', background: '#007bff', color: 'white', border: 'none', borderRadius: '4px' }}
+                onClick={handleAdd}
+                style={{ padding: '8px 16px', cursor: 'pointer', background: '#007bff', color: 'white', border: 'none', borderRadius: '4px', width: '100%' }}
             >
                 Add to Cart
             </button>
