@@ -1,17 +1,20 @@
-export default function Header({cartCount}) {
-    // Logic JS có thể viết ở đây (trước câu lệnh return)
-    const storeName = "Paw & Purr E-commerce";
+// src/components/layout/Header.jsx
+import { useCart } from '../../context/CartContext';
+
+export default function Header() {
+    const { cartCount } = useCart(); // Lấy số lượng giỏ hàng trực tiếp từ Context
 
     return (
         <header className="site-header">
             <div className="logo">
-                {/* Trong JSX, dùng dấu ngoặc nhọn {} để nhúng biến JavaScript */}
-                <h2>🐶 {storeName}</h2>
+                <h2>🐶 Paw & Purr E-commerce</h2>
             </div>
             <nav>
                 <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/cart">Cart ({cartCount})</a></li> {/* Hiển thị số lượng từ App truyền xuống */}
+                    <li>Home</li>
+                    <li>Products</li>
+                    {/* Header tự động render lại khi cartCount trong Context thay đổi */}
+                    <li style={{fontWeight: 'bold', color: 'red'}}>Cart ({cartCount})</li>
                 </ul>
             </nav>
         </header>
