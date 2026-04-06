@@ -8,7 +8,7 @@ function App() {
     return (
         <CartProvider>
             <Header />
-            <main className="main-content">
+            <main>
                 <ProductsPage />
             </main>
             <Footer />
