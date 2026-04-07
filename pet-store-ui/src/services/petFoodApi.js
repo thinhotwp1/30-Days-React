@@ -18,6 +18,7 @@ export const petFoodApi = createApi({
                 return response.products.map(item => ({
                     id: item.id,
                     name: item.title,
+                    description: item.description,
                     price: item.price * 25000, // Đổi USD sang VNĐ giả lập
                     imageUrl: item.thumbnail
                 }));
