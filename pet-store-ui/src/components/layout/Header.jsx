@@ -1,19 +1,18 @@
-export default function Header({cartCount}) {
-    // Logic JS có thể viết ở đây (trước câu lệnh return)
-    const storeName = "Paw & Purr E-commerce";
+import { useSelector } from 'react-redux';
+
+export default function Header() {
+    // Select trực tiếp vào nhánh 'auth' trong Store
+    const { isAuthenticated, adminName } = useSelector((state) => state.auth);
 
     return (
-        <header className="site-header">
-            <div className="logo">
-                {/* Trong JSX, dùng dấu ngoặc nhọn {} để nhúng biến JavaScript */}
-                <h2>🐶 {storeName}</h2>
+        <header>
+            <h1>Pet Store Admin Panel</h1>
+            <div>
+                {isAuthenticated
+                    ? <span style={{ color: 'green' }}>Xin chào, {adminName}</span>
+                    : <span style={{ color: 'red' }}>Vui lòng đăng nhập</span>
+                }
             </div>
-            <nav>
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/cart">Cart ({cartCount})</a></li> {/* Hiển thị số lượng từ App truyền xuống */}
-                </ul>
-            </nav>
         </header>
     );
 }
