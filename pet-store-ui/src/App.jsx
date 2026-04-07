@@ -1,6 +1,7 @@
 // src/App.jsx
 import Header from './components/layout/Header';
 import AdminLogin from './components/AdminLogin';
+import PetFoodList from "./components/PetFoodList.jsx";
 // Nếu bạn để AdminLogin ở thư mục khác thì nhớ sửa lại đường dẫn import cho đúng nhé
 
 function App() {
@@ -10,8 +11,7 @@ function App() {
             <Header />
 
             <main style={{ padding: '20px' }}>
-                {/* Gọi form đăng nhập để nó bắn Action (Ghi dữ liệu) vào Store */}
-                <AdminLogin />
+                <PetFoodList />
             </main>
         </div>
     );
