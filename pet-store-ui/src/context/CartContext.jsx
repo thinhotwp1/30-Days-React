@@ -1,5 +1,5 @@
 // src/context/CartContext.jsx
-import { createContext, useContext, useReducer } from 'react';
+import {createContext, useContext, useReducer} from 'react';
 
 // Định nghĩa các Hành động
 const ACTIONS = {
@@ -11,10 +11,11 @@ const ACTIONS = {
 // Hàm xử lý logic (Reducer)
 const cartReducer = (state, action) => {
     switch (action.type) {
-        case ACTIONS.ADD_ITEM:
+        case ACTIONS.ADD_ITEM: {
             const existingItem = state.find(item => item.id === action.payload.id);
             if (existingItem) return state; // Nếu có rồi thì không thêm trùng
             return [...state, action.payload];
+        }
         case ACTIONS.REMOVE_ITEM:
             return state.filter(item => item.id !== action.payload);
         case ACTIONS.CLEAR_CART:
@@ -26,12 +27,12 @@ const cartReducer = (state, action) => {
 
 const CartContext = createContext();
 
-export const CartProvider = ({ children }) => {
+export const CartProvider = ({children}) => {
     const [cart, dispatch] = useReducer(cartReducer, []);
     const cartCount = cart.length;
 
     return (
-        <CartContext.Provider value={{ cart, cartCount, dispatch, ACTIONS }}>
+        <CartContext.Provider value={{cart, cartCount, dispatch, ACTIONS}}>
             {children}
         </CartContext.Provider>
     );
