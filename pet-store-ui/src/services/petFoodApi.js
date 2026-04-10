@@ -1,32 +1,39 @@
+// src/services/petFoodApi.js
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-// 1. Khởi tạo một API Service
 export const petFoodApi = createApi({
-    reducerPath: 'petFoodApi', // Tên định danh trong Redux Store
+    reducerPath: 'petFoodApi',
+    baseQuery: fetchBaseQuery({ baseUrl: 'https://dummyjson.com/' }),
 
-    // 2. Cấu hình Base URL (Giống @RequestMapping ở mức Class)
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://dummyjson.com/' }), // Dùng API giả lập
+    // 1. Khai báo danh sách các loại Nhãn dán sẽ dùng trong API này
+    tagTypes: ['PetFood'],
 
-    // 3. Định nghĩa các Endpoints (Giống @GetMapping, @PostMapping)
     endpoints: (builder) => ({
-        // Lấy danh sách thức ăn
+        // ---- LỆNH READ (GET) ----
         getPetFoods: builder.query({
-            query: () => 'products/category/groceries', // Endpoint cụ thể
+            query: () => 'products/category/groceries',
 
-            // Transform response giúp biến đổi dữ liệu Backend trả về thành format UI cần (DTO Mapping)
-            transformResponse: (response) => {
-                return response.products.map(item => ({
-                    id: item.id,
-                    name: item.title,
-                    description: item.description,
-                    price: item.price * 25000, // Đổi USD sang VNĐ giả lập
-                    imageUrl: item.thumbnail
-                }));
-            }
+            // 2. Dán nhãn 'PetFood' cho giỏ dữ liệu này khi lưu vào Cache
+            providesTags: ['PetFood'],
+
+            transformResponse: (response) => response.products,
+        }),
+
+        // ---- LỆNH WRITE (POST/PUT/DELETE) ----
+        addPetFood: builder.mutation({
+            // Giả lập gọi API POST để thêm đồ ăn mới
+            query: (newFood) => ({
+                url: 'products/add',
+                method: 'POST',
+                body: newFood,
+            }),
+
+            // 3. PHÉP THUẬT NẰM Ở ĐÂY:
+            // Khi lệnh POST này thành công, tự động "xé bỏ" cái Cache có nhãn 'PetFood'
+            invalidatesTags: ['PetFood'],
         }),
     }),
 });
 
-// PHÉP THUẬT CỦA RTK QUERY: Tự động sinh ra Custom Hook dựa trên tên endpoint!
-// getPetFoods -> useGetPetFoodsQuery
-export const { useGetPetFoodsQuery } = petFoodApi;
+// RTK Query tự sinh thêm Hook cho Mutation
+export const { useGetPetFoodsQuery, useAddPetFoodMutation } = petFoodApi;
