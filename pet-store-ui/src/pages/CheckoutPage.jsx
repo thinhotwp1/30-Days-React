@@ -4,6 +4,7 @@ import { useCart } from '../context/CartContext';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod'; // (Nhớ copy schema ở bước 2 vào đây hoặc tách file riêng)
+import toast from 'react-hot-toast';
 
 const checkoutSchema = z.object({
     fullName: z.string().min(3, "Tên phải có ít nhất 3 ký tự").max(50, "Tên không được vượt quá 50 ký tự"),
@@ -32,7 +33,10 @@ export default function CheckoutPage() {
         // Giả lập gọi API 1.5 giây
         await new Promise(resolve => setTimeout(resolve, 1500));
 
-        alert(`🎉 Thanh toán thành công cho đơn hàng của ${data.fullName}!`);
+        // 2. Cập nhật Toast thành Success
+        console.log("Thanh toán thành công cho ${data.fullName}");
+        toast.success(`Thanh toán thành công cho ${data.fullName}!`);
+
         dispatch({ type: ACTIONS.CLEAR_CART });
         navigate('/', { replace: true });
     };

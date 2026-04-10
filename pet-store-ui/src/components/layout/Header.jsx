@@ -26,6 +26,7 @@ export default function Header() {
                     Cart <span style={{ color: 'red' }}>({cartCount})</span>
                 </NavLink>
                 <NavLink to="/admin" style={navStyle}>Admin</NavLink>
+                <NavLink to="/admin-products" style={navStyle}>Admin Products</NavLink>
             </nav>
         </header>
     );
