@@ -1,5 +1,6 @@
 // src/pages/ProductsPage.jsx
 import PetFoodList from '../components/PetFoodList';
+import MyDropdown from "../components/MyDropdown";
 
 export default function ProductsPage() {
     return (
@@ -10,6 +11,7 @@ export default function ProductsPage() {
 
             {/* Gọi Component đã có tích hợp sẵn RTK Query ở bài trước */}
             <PetFoodList />
+            <MyDropdown />
 
             {/* Nếu bạn vẫn giữ ProductCard (thú cưng) từ Ngày 8, bạn có thể gọi thêm ở đây */}
         </div>
